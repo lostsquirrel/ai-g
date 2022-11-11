@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'config.dart';
+import 'donate.dart';
 import 'login.dart';
 
 class Generator extends StatefulWidget {
@@ -44,19 +45,14 @@ class _GeneratorState extends State<Generator> {
   _build(TextEditingController controller, String token) {
     var children = <Widget>[];
     if (imageUrl.isNotEmpty) {
-      var image = Image.network(
-        imageUrl,
-        headers: {"Authorization": "Bearer $token"},
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return CircularProgressIndicator(
-            color: Colors.orangeAccent,
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!.toInt()
-                : null,
-          );
-        },
+      var image = CachedNetworkImage(
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: CircularProgressIndicator(
+            value: progress.progress,
+          ),
+        ),
+        httpHeaders: {'Authorization': 'Bearer $token'},
+        imageUrl: imageUrl,
       );
       children.add(Expanded(
         child: Padding(
@@ -83,8 +79,14 @@ class _GeneratorState extends State<Generator> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: ElevatedButton(
         child: const Text('OK'),
-        onPressed: () async {
+        onPressed: () {
           setImageUrl(controller.text);
+
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
         },
       ),
     );
@@ -92,6 +94,12 @@ class _GeneratorState extends State<Generator> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Generator"),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.attach_money),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(Donate.routeName))
+        ],
       ),
       body: Center(
         child: Column(children: children),
