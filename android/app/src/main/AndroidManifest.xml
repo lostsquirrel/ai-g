@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.shangao.aig.aig">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="aig"
         android:name="${applicationName}"
