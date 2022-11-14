@@ -36,7 +36,8 @@ class _GeneratorState extends State<Generator> {
 
   void setImageUrl(String prompt) {
     if (prompt.isEmpty) return;
-    var url = "$serverBase?prompt=$prompt";
+    var url =
+        "$serverBase?t=${DateTime.now().millisecondsSinceEpoch}&prompt=$prompt";
     setState(() {
       imageUrl = url;
     });
