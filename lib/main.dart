@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'donate.dart';
 import 'login.dart';
+import 'result.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         Login.routeName: (context) => const Login(),
         Generator.routeName: (context) => const Generator(),
         Donate.routeName: (context) => const Donate(),
+        Result.routeName: (context) => const Result(),
       },
     );
   }

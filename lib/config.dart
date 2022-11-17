@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // const serverBase = "http://192.168.9.137:8888";
-const serverBase = "https://g.shangao.tech:6443";
+const serverBase = "g.shangao.tech:6443";
 const storage = FlutterSecureStorage();
 
 const tokenKey = 'token';

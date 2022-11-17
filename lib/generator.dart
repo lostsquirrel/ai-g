@@ -1,5 +1,6 @@
+import 'package:aig/prompt.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'result.dart';
 import 'config.dart';
 import 'donate.dart';
 import 'login.dart';
@@ -14,7 +15,8 @@ class Generator extends StatefulWidget {
 
 class _GeneratorState extends State<Generator> {
   bool isLoggedIn = false;
-  String imageUrl = "";
+  String _prompt = "";
+  int t = 0;
   String _token = "";
   @override
   Widget build(BuildContext context) {
@@ -31,39 +33,11 @@ class _GeneratorState extends State<Generator> {
       });
     }
 
-    return isLoggedIn ? _build(controller, _token) : const Login();
+    return isLoggedIn ? _build(controller) : const Login();
   }
 
-  void setImageUrl(String prompt) {
-    if (prompt.isEmpty) return;
-    var url =
-        "$serverBase?t=${DateTime.now().millisecondsSinceEpoch}&prompt=$prompt";
-    setState(() {
-      imageUrl = url;
-    });
-  }
-
-  _build(TextEditingController controller, String token) {
+  _build(TextEditingController controller) {
     var children = <Widget>[];
-    if (imageUrl.isNotEmpty) {
-      var image = CachedNetworkImage(
-        progressIndicatorBuilder: (context, url, progress) => Center(
-          child: CircularProgressIndicator(
-            value: progress.progress,
-          ),
-        ),
-        httpHeaders: {'Authorization': 'Bearer $token'},
-        imageUrl: imageUrl,
-      );
-      children.add(Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: image,
-        ),
-      ));
-    } else {
-      children.add(const Expanded(child: Icon(Icons.image)));
-    }
     var quta = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
@@ -81,13 +55,21 @@ class _GeneratorState extends State<Generator> {
       child: ElevatedButton(
         child: const Text('OK'),
         onPressed: () {
-          setImageUrl(controller.text);
-
-          FocusScopeNode currentFocus = FocusScope.of(context);
-
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
+          // setPrompt(controller.text);
+          var prompt = controller.text;
+          if (prompt.isNotEmpty) {
+            t = DateTime.now().millisecondsSinceEpoch;
+            var args = Prompt(t.toString(), prompt, _token);
+            Navigator.of(context).pushNamed(
+              Result.routeName,
+              arguments: args,
+            );
           }
+          // FocusScopeNode currentFocus = FocusScope.of(context);
+
+          // if (!currentFocus.hasPrimaryFocus) {
+          //   currentFocus.unfocus();
+          // }
         },
       ),
     );
