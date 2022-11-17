@@ -15,8 +15,7 @@ class Generator extends StatefulWidget {
 
 class _GeneratorState extends State<Generator> {
   bool isLoggedIn = false;
-  String _prompt = "";
-  int t = 0;
+
   String _token = "";
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class _GeneratorState extends State<Generator> {
           // setPrompt(controller.text);
           var prompt = controller.text;
           if (prompt.isNotEmpty) {
-            t = DateTime.now().millisecondsSinceEpoch;
+            var t = DateTime.now().millisecondsSinceEpoch;
             var args = Prompt(t.toString(), prompt, _token);
             Navigator.of(context).pushNamed(
               Result.routeName,

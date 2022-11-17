@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(),
+              const Spacer(),
               ElevatedButton(
                 child: const Text('Clear'),
                 onPressed: () async {
@@ -76,14 +76,14 @@ class _LoginState extends State<Login> {
                   });
                 },
               ),
-              Spacer(),
+              const Spacer(),
               ElevatedButton(
                 child: const Text('Go Play'),
                 onPressed: () {
                   Navigator.of(context).pushNamed(Generator.routeName);
                 },
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
         ),
