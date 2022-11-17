@@ -17,10 +17,10 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: "$JAVA_VERSION"
+          java-version: ${{ env.JAVA_VERSION }}
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "$FLUTTER_VERSION"
+          flutter-version: 3.3.8
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
